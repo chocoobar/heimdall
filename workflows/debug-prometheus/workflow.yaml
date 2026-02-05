@@ -1,0 +1,46 @@
+name: debug-prometheus
+description: 'Validate and optimize Prometheus queries'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  query:
+    type: string
+    description: 'PromQL query to debug/optimize'
+    required: true
+  context:
+    type: string
+    description: 'What the query should measure'
+    required: false
+
+outputs:
+  validated_query:
+    type: string
+    description: 'Syntax-validated query'
+  optimized_query:
+    type: string
+    description: 'Optimized version of query'
+  analysis_report:
+    path: '{sre_artifacts}/prometheus/query-analysis-{date}.md'
+    description: 'Query analysis report'
+
+knowledge:
+  - prometheus-query-patterns
+
+steps:
+  - name: step-01-parse-query
+    file: steps/step-01-parse-query.md
+    description: 'Parse and validate PromQL syntax'
+  - name: step-02-analyze
+    file: steps/step-02-analyze.md
+    description: 'Analyze query patterns and performance'
+  - name: step-03-optimize
+    file: steps/step-03-optimize.md
+    description: 'Suggest optimizations'
+  - name: step-04-output
+    file: steps/step-04-output.md
+    description: 'Generate output and test if endpoint available'
+
+validation:
+  - type: promql_syntax
+    strict: true

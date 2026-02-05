@@ -1,0 +1,7 @@
+category,fragment_name,description,file_path
+incident-response,incident-response-playbooks,Standard incident response procedures (detection, triage, escalation, communication, resolution, postmortem),knowledge/incident-response-playbooks.md
+monitoring,prometheus-query-patterns,Common Prometheus queries (CPU, memory, latency, error rates, saturation) with examples and optimization tips,knowledge/prometheus-query-patterns.md
+performance,db-optimization-techniques,Database performance best practices (indexing, query optimization, connection pooling, caching strategies),knowledge/db-optimization-techniques.md
+reliability,slo-sli-definitions,SLO/SLI concepts, calculation methods, threshold recommendations, monitoring strategies,knowledge/slo-sli-definitions.md
+documentation,runbook-templates,Various runbook formats (deployment, rollback, incident response, maintenance),knowledge/runbook-templates.md
+cicd,cicd-reliability-checklist,Pipeline health checks (build stability, test coverage, deployment frequency, rollback capability),knowledge/cicd-reliability-checklist.md

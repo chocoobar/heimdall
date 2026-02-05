@@ -1,0 +1,27 @@
+name: oncall-handoff
+description: 'Generate structured on-call handoff documentation'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  outgoing_engineer:
+    type: string
+    description: 'Engineer ending shift'
+    required: true
+  incoming_engineer:
+    type: string
+    description: 'Engineer starting shift'
+    required: true
+
+outputs:
+  handoff_document:
+    path: '{sre_artifacts}/oncall/handoff-{date}.md'
+
+knowledge:
+  - incident-response-playbooks
+  - runbook-templates
+
+steps:
+  - name: step-01-gather-status
+    file: steps/workflow-steps.md
+    description: 'Gather current system status and issues'

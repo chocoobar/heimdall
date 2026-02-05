@@ -1,0 +1,59 @@
+name: create-postmortem
+description: 'Generate RCA and COE documents for incidents'
+version: '1.0.0'
+agent: heimdall
+
+# Workflow Configuration
+inputs:
+  incident_id:
+    type: string
+    description: 'Incident identifier'
+    required: true
+  incident_data:
+    type: object
+    description: 'Incident details (timeline, impact, resolution)'
+    required: true
+
+outputs:
+  rca_document:
+    path: '{sre_artifacts}/postmortems/rca-{incident_id}-{date}.md'
+    description: 'Root Cause Analysis document'
+  coe_document:
+    path: '{sre_artifacts}/postmortems/coe-{incident_id}-{date}.md'
+    description: 'Correction of Errors document'
+
+# Templates to use
+templates:
+  rca: '{project-root}/_bmad/sre/templates/rca-template.md'
+  coe: '{project-root}/_bmad/sre/templates/coe-template.md'
+
+# Knowledge fragments to load
+knowledge:
+  - incident-response-playbooks
+  - slo-sli-definitions
+
+# Step-file architecture
+steps:
+  - name: step-01-gather-data
+    file: steps/step-01-gather-data.md
+    description: 'Gather incident data and timeline'
+  - name: step-02-generate-rca
+    file: steps/step-02-generate-rca.md
+    description: 'Generate RCA using template'
+  - name: step-03-generate-coe
+    file: steps/step-03-generate-coe.md
+    description: 'Generate COE using template'
+  - name: step-04-publish
+    file: steps/step-04-publish.md
+    description: 'Validate and publish documents'
+
+# Validation gates
+validation:
+  - type: template_compliance
+    templates: [rca, coe]
+  - type: required_sections
+    sections:
+      - incident_summary
+      - timeline
+      - root_cause
+      - action_items

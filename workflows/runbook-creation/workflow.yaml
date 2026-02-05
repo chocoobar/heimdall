@@ -1,0 +1,41 @@
+name: runbook-creation
+description: 'Create structured SRE runbooks'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  runbook_type:
+    type: string
+    description: 'Type: deployment, rollback, incident, maintenance, capacity'
+    required: true
+  service_name:
+    type: string
+    description: 'Service the runbook is for'
+    required: true
+
+outputs:
+  runbook:
+    path: '{sre_artifacts}/runbooks/{service}-{type}-{date}.md'
+    description: 'Generated runbook'
+
+templates:
+  runbook: '{project-root}/_bmad/sre/templates/runbook-template.md'
+
+knowledge:
+  - runbook-templates
+  - incident-response-playbooks
+
+steps:
+  - name: step-01-gather-requirements
+    file: steps/step-01-gather-requirements.md
+    description: 'Collect runbook requirements and context'
+  - name: step-02-generate-runbook
+    file: steps/step-02-generate-runbook.md
+    description: 'Generate runbook using template'
+  - name: step-03-validate-publish
+    file: steps/step-03-validate-publish.md
+    description: 'Validate completeness and publish'
+
+validation:
+  - type: required_sections
+    sections: [overview, prerequisites, procedure, rollback, verification, troubleshooting]

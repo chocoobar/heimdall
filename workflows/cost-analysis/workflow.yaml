@@ -1,0 +1,26 @@
+name: cost-analysis
+description: 'Analyze infrastructure costs and optimization opportunities'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  scope:
+    type: string
+    description: 'Analysis scope (service, team, all)'
+    required: true
+  cost_data:
+    type: object
+    description: 'Cost data from cloud provider'
+    required: false
+
+outputs:
+  cost_report:
+    path: '{sre_artifacts}/cost/analysis-{date}.md'
+  recommendations:
+    type: array
+    description: 'Cost optimization recommendations with ROI'
+
+steps:
+  - name: step-01-gather-costs
+    file: steps/workflow-steps.md
+    description: 'Collect cost data and utilization metrics'

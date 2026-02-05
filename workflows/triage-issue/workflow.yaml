@@ -1,0 +1,53 @@
+name: triage-issue
+description: 'Analyze JIRA issues and identify root causes'
+version: '1.0.0'
+agent: heimdall
+
+# Workflow Configuration
+inputs:
+  jira_ticket:
+    type: string
+    description: 'JIRA ticket ID or content (if pasted manually)'
+    required: true
+  incident_severity:
+    type: string
+    description: 'Initial severity assessment (P1/P2/P3)'
+    required: false
+    default: 'unknown'
+
+outputs:
+  triage_report:
+    path: '{sre_artifacts}/triage/triage-{ticket_id}-{date}.md'
+    description: 'Triage analysis report'
+  priority_recommendation:
+    type: string
+    description: 'Recommended priority level'
+
+# Knowledge fragments to load
+knowledge:
+  - incident-response-playbooks
+  - slo-sli-definitions
+
+# Step-file architecture
+steps:
+  - name: step-01-mcp-check
+    file: steps/step-01-mcp-check.md
+    description: 'Check MCP availability and get ticket data'
+  - name: step-02-analyze-issue
+    file: steps/step-02-analyze-issue.md
+    description: 'Analyze issue details and identify patterns'
+  - name: step-03-root-cause
+    file: steps/step-03-root-cause.md
+    description: 'Identify potential root causes'
+  - name: step-04-generate-report
+    file: steps/step-04-generate-report.md
+    description: 'Generate triage report with recommendations'
+
+# Validation gates
+validation:
+  - type: required_sections
+    sections:
+      - summary
+      - severity_assessment
+      - root_cause_hypothesis
+      - recommended_actions
