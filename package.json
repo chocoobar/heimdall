@@ -1,0 +1,46 @@
+{
+  "name": "@chocoobar/heimdall",
+  "version": "0.0.2",
+  "description": "Heimdall - AI-powered SRE Agent for incident management, root cause analysis, and reliability engineering",
+  "keywords": [
+    "sre",
+    "site-reliability-engineering",
+    "incident-management",
+    "prometheus",
+    "postmortem",
+    "runbooks",
+    "devops",
+    "ai-agent",
+    "jira",
+    "confluence"
+  ],
+  "author": "chocoobar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chocoobar/heimdall"
+  },
+  "homepage": "https://github.com/chocoobar/heimdall#readme",
+  "bugs": {
+    "url": "https://github.com/chocoobar/heimdall/issues"
+  },
+  "bin": {
+    "heimdall": "./bin/install.js"
+  },
+  "files": [
+    "agents/",
+    "bin/",
+    "sre-knowledge/",
+    "templates/",
+    "workflows/",
+    "config.yaml",
+    "module-help.csv",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "postinstall": "node bin/install.js --silent"
+  }
+}

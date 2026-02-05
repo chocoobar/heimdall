@@ -1,0 +1,35 @@
+name: cicd-reliability
+description: 'Analyze pipeline health and recommend improvements'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  pipeline_name:
+    type: string
+    description: 'Pipeline to analyze'
+    required: true
+  pipeline_data:
+    type: object
+    description: 'Pipeline metrics and configuration'
+    required: false
+
+outputs:
+  reliability_report:
+    path: '{sre_artifacts}/cicd/reliability-{pipeline}-{date}.md'
+  recommendations:
+    type: array
+    description: 'Prioritized improvement recommendations'
+
+knowledge:
+  - cicd-reliability-checklist
+
+steps:
+  - name: step-01-collect-pipeline-data
+    file: steps/step-01-collect-data.md
+    description: 'Collect pipeline metrics and configuration'
+  - name: step-02-assess-health
+    file: steps/step-02-assess-health.md
+    description: 'Assess against reliability checklist'
+  - name: step-03-generate-recommendations
+    file: steps/step-03-recommendations.md
+    description: 'Generate prioritized improvements'

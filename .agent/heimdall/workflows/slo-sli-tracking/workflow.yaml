@@ -1,0 +1,37 @@
+name: slo-sli-tracking
+description: 'Define and monitor service level objectives'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  service_name:
+    type: string
+    description: 'Service to define SLOs for'
+    required: true
+  current_slos:
+    type: object
+    description: 'Existing SLO definitions if any'
+    required: false
+
+outputs:
+  slo_document:
+    path: '{sre_artifacts}/slo/slo-{service}-{date}.yaml'
+  prometheus_rules:
+    path: '{sre_artifacts}/slo/rules-{service}.yaml'
+  dashboard_config:
+    path: '{sre_artifacts}/slo/dashboard-{service}.json'
+
+knowledge:
+  - slo-sli-definitions
+  - prometheus-query-patterns
+
+steps:
+  - name: step-01-define-slis
+    file: steps/step-01-define-slis.md
+    description: 'Define Service Level Indicators'
+  - name: step-02-set-objectives
+    file: steps/step-02-set-objectives.md
+    description: 'Set SLO targets and error budget'
+  - name: step-03-generate-artifacts
+    file: steps/step-03-generate-artifacts.md
+    description: 'Generate recording rules and dashboards'

@@ -1,0 +1,47 @@
+name: performance-analysis
+description: 'Analyze metrics and recommend optimizations'
+version: '1.0.0'
+agent: heimdall
+
+inputs:
+  context:
+    type: string
+    description: 'Performance issue description'
+    required: true
+  metrics_data:
+    type: object
+    description: 'Metrics data to analyze'
+    required: false
+
+outputs:
+  performance_report:
+    path: '{sre_artifacts}/performance/analysis-{date}.md'
+  optimization_code:
+    path: '{sre_artifacts}/performance/optimizations-{date}'
+    description: 'Generated optimization code'
+
+knowledge:
+  - db-optimization-techniques
+  - prometheus-query-patterns
+
+steps:
+  - name: step-01-collect-context
+    file: steps/step-01-collect-context.md
+    description: 'Gather performance context and data'
+  - name: step-02-bottleneck-analysis
+    file: steps/step-02-bottleneck-analysis.md
+    description: 'Identify performance bottlenecks'
+  - name: step-03-generate-optimizations
+    file: steps/step-03-generate-optimizations.md
+    description: 'Generate optimization recommendations and code'
+  - name: step-04-handoff
+    file: steps/step-04-handoff.md
+    description: 'Generate report and handoff to dev agent if needed'
+
+collaboration:
+  dev_agent_handoff:
+    enabled: true
+    output_format:
+      - language
+      - context
+      - test_requirements
